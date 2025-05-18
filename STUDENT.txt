@@ -1,2 +1,1 @@
-APP_URL=https://bejewelled-starship-4ede27.netlify.app/
-MAP_SERVICE_API_KEY=eXS78O77TseIxWlFdU3X
+APP_URL=https://life-story-app-dicoding-end.netlify.app/
