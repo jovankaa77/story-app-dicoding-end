@@ -1,0 +1,66 @@
+/* Base Styling for Notification Buttons */
+.notification-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Icon Styling */
+.notification-button i {
+  font-size: 16px;
+}
+
+/* Tombol Langganan (Subscribe Button) */
+#subscribe-button {
+  background-color: #6a4c9c; /* Purple color */
+  color: white;
+  border: 1px solid #5a3e8a; /* Darker purple border */
+}
+
+#subscribe-button:hover {
+  background-color: #5a3e8a; /* Darker purple when hovered */
+  border-color: #4b2f75; /* Even darker border on hover */
+}
+
+/* Tombol Berhenti Langganan (Unsubscribe Button) */
+#unsubscribe-button {
+  background-color: #9b59b6; /* Lighter purple color */
+  color: white;
+  border: 1px solid #8e44ad; /* Darker purple border */
+}
+
+#unsubscribe-button:hover {
+  background-color: #8e44ad; /* Darker purple when hovered */
+  border-color: #732d91; /* Even darker border on hover */
+}
+
+/* Disabled Button Styling */
+.notification-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #b6a0c2; /* Soft purple for disabled buttons */
+  border-color: #a88b9e; /* Lighter purple border for disabled state */
+}
+
+/* Loading Spinner Animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.fa-spin {
+  animation: spin 1.5s linear infinite; /* Slower spin animation */
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Halaman Tidak Ditemukan</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .error-container {
+        text-align: center;
+        padding: 40px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 72px;
+        color: #e74c3c;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 24px;
+        color: #555;
+        margin-bottom: 30px;
+      }
+
+      p {
+        font-size: 18px;
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .home-button {
+        padding: 15px 30px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .home-button:hover {
+        background-color: #2980b9;
+      }
+
+      .home-button:focus {
+        outline: none;
+      }
+
+      .error-icon {
+        font-size: 100px;
+        color: #e74c3c;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 48px;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        .home-button {
+          font-size: 14px;
+          padding: 12px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="error-container">
+      <div class="error-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+        <!-- You can replace this with your own icon or FontAwesome -->
+      </div>
+      <h1>404</h1>
+      <h2>Halaman Tidak Ditemukan</h2>
+      <p>
+        Maaf, halaman yang Anda cari tidak dapat ditemukan. Pastikan URL yang
+        Anda masukkan benar.
+      </p>
+      <button class="home-button" onclick="window.location.href = '/'">
+        Kembali ke Beranda
+      </button>
+    </div>
+
+    <!-- Font Awesome CDN for the 404 icon -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </body>
+</html>

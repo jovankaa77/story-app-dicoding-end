@@ -1,0 +1,133 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f4f4f4; /* Warna abu-abu terang */
+  color: #333; /* Warna teks utama */
+  line-height: 1.6;
+}
+
+/* Header Styles */
+header {
+  background-color: #6a4c9c; /* Warna ungu modern */
+  color: #fff; /* Teks putih */
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nav-logo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links li {
+  margin-left: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.icon-btn {
+  font-size: 1.6rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn .plus-icon {
+  margin-left: 5px;
+}
+
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background-color: #6a4c9c;
+  color: #fff;
+  padding: 10px;
+  font-size: 1rem;
+  transition: top 0.3s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #6a4c9c; /* Warna ungu */
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+}
+
+footer p {
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Scroll Top Button */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #6a4c9c;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.scroll-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Main Content Styles */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Links active and hover state */
+a:focus,
+a:hover {
+  text-decoration: underline;
+}
