@@ -30,7 +30,8 @@ export default class HomePresenter {
 
   // Display message if the user is not logged in
   _displayLoginMessage(container) {
-    container.innerHTML = '<p class="text-center">Login tidak tersedia</p>';
+    container.innerHTML =
+      '<p class="text-center">Silahkan Login terlebih dahulu <a href="#login" style="text-decoration: none;">Login now!</a></p>';
   }
 
   // Show or hide the loading element
