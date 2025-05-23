@@ -9,66 +9,57 @@ const assetsToCache = [
   "/app.bundle.js",
   "/app.webmanifest",
   "/favicon.ico",
-  "/images/story-app-small.png",
-  "/images/story-app-big.png",
+  "/images/icon-192x192.png",
+  "/images/icon-512x512.png",
   "/offline.html",
 ];
 
-// Event listener untuk install service worker
-self.addEventListener("install", handleInstall);
+self.addEventListener("install", (event) => {
+  console.log("Instal SW");
 
-// Event listener untuk aktivasi service worker
-self.addEventListener("activate", handleActivate);
-
-// Event listener untuk fetch request
-self.addEventListener("fetch", handleFetch);
-
-// Event listener untuk push notification
-self.addEventListener("push", handlePush);
-
-// Event listener untuk klik notifikasi
-self.addEventListener("notificationclick", handleNotificationClick);
-
-function handleInstall(event) {
-  console.log("Instaling SW...");
   self.skipWaiting();
 
   event.waitUntil(
-    caches
-      .open(STATIC_CACHE)
-      .then((cache) => {
-        console.log("SW catching asset");
-        return cache.addAll(assetsToCache);
-      })
-      .catch((error) => console.error("SW catching failed:", error))
+    caches.open(STATIC_CACHE).then((cache) => {
+      console.log("Changing SW");
+      return cache
+        .addAll(assetsToCache)
+        .then(() => {
+          console.log("Sukses");
+        })
+        .catch((error) => {
+          console.error("ERROR", error);
+        });
+    })
   );
-}
+});
 
-function handleActivate(event) {
-  console.log("SW - active");
+self.addEventListener("activate", (event) => {
+  console.log("SW Active");
+
   event.waitUntil(clients.claim());
 
   event.waitUntil(
     caches.keys().then((cacheNames) => {
-      const cachesToDelete = cacheNames.filter(
-        (cacheName) =>
-          cacheName.startsWith("story-app-") &&
-          cacheName !== STATIC_CACHE &&
-          cacheName !== DYNAMIC_CACHE &&
-          cacheName !== API_CACHE
-      );
-
       return Promise.all(
-        cachesToDelete.map((cacheName) => {
-          console.log(`SW Hapus old cache ${cacheName}`);
-          return caches.delete(cacheName);
-        })
+        cacheNames
+          .filter(
+            (cacheName) =>
+              cacheName.startsWith("story-app-") &&
+              cacheName !== STATIC_CACHE &&
+              cacheName !== DYNAMIC_CACHE &&
+              cacheName !== API_CACHE
+          )
+          .map((cacheName) => {
+            console.log(`Delete SW ${cacheName}`);
+            return caches.delete(cacheName);
+          })
       );
     })
   );
-}
+});
 
-function handleFetch(event) {
+self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
@@ -81,14 +72,16 @@ function handleFetch(event) {
     url.hostname.includes("dicoding.dev")
   ) {
     event.respondWith(networkFirstStrategy(request));
-  } else {
-    event.respondWith(cacheFirstStrategy(request));
+    return;
   }
-}
+
+  event.respondWith(cacheFirstStrategy(request));
+});
 
 async function networkFirstStrategy(request) {
   try {
     const networkResponse = await fetch(request);
+
     const responseToCache = networkResponse.clone();
 
     caches.open(API_CACHE).then((cache) => {
@@ -99,7 +92,8 @@ async function networkFirstStrategy(request) {
 
     return networkResponse;
   } catch (error) {
-    console.log("Failed fetch, from serving cache", error);
+    console.log("Failed", error);
+
     const cachedResponse = await caches.match(request);
     return cachedResponse || caches.match("/offline.html");
   }
@@ -107,12 +101,14 @@ async function networkFirstStrategy(request) {
 
 async function cacheFirstStrategy(request) {
   const cachedResponse = await caches.match(request);
+
   if (cachedResponse) {
     return cachedResponse;
   }
 
   try {
     const networkResponse = await fetch(request);
+
     caches.open(DYNAMIC_CACHE).then((cache) => {
       if (request.method === "GET") {
         cache.put(request, networkResponse.clone());
@@ -121,23 +117,20 @@ async function cacheFirstStrategy(request) {
 
     return networkResponse;
   } catch (error) {
-    console.log("Fetch failed, serving fallback", error);
-    return handleFetchError(request);
+    console.log("Failed", error);
+
+    if (request.destination === "document") {
+      return caches.match("/offline.html");
+    }
+
+    return new Response("Network error happened", {
+      status: 408,
+      headers: { "Content-Type": "text/plain" },
+    });
   }
 }
 
-function handleFetchError(request) {
-  if (request.destination === "document") {
-    return caches.match("/offline.html");
-  }
-
-  return new Response("Network error happened", {
-    status: 408,
-    headers: { "Content-Type": "text/plain" },
-  });
-}
-
-function handlePush(event) {
+self.addEventListener("push", (event) => {
   let data = {
     title: "Notifikasi",
     body: "Ada pesan masuk!",
@@ -156,17 +149,20 @@ function handlePush(event) {
     body: data.body || "Pesan baru diterima.",
     icon: "/images/story-app-small.png",
     badge: "/images/story-app-big.png",
-    data: { url: data.url || "/" },
+    data: {
+      url: data.url || "/",
+    },
     vibrate: [100, 50, 100],
   };
 
   event.waitUntil(
     self.registration.showNotification(data.title || "Notifikasi", options)
   );
-}
+});
 
-function handleNotificationClick(event) {
+self.addEventListener("notificationclick", (event) => {
   event.notification.close();
+
   const targetUrl = event.notification.data?.url || "/";
 
   event.waitUntil(
@@ -184,4 +180,4 @@ function handleNotificationClick(event) {
         }
       })
   );
-}
+});
